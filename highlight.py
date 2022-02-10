@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import sys
 import re
 from termcolor import colored, cprint
@@ -10,12 +11,12 @@ def do_line(colors, line):
             return line
     return line
 
-def do_stream(colors, stream):
+def do_stream(colors, stream, out_stream):
     for line in stream:
-        line = do_line(colors, line)
         if not line.endswith('\n'):
             line = line + '\n'
-        sys.stdout.write(line)
+        line = do_line(colors, line)
+        out_stream.write(line)
 
 if len(sys.argv) <= 1:
     EXAMPLE = """[WARN ] Cooly delivered sadistic warning
@@ -23,6 +24,7 @@ if len(sys.argv) <= 1:
 [INFO ] Funny, yet, insightful retort
 [INFO ] Mildly agitated declaration of mission completion. 
 [INFO ] Gentle exhortation to further action
+[INFO ] Overly affectionate greeting 
 [WARN ] Greeting
 [INFO ] Transparent rationale for conversation
 [ERROR] Annoyed attempt to deflect subtext
@@ -33,9 +35,8 @@ if len(sys.argv) <= 1:
     print('example: %s ".*ERROR.*" red ".*WARN.*" yellow ".*INFO.*" white ".*SUCCESS.*" green' % sys.argv[0])
     print()
     colors = [(re.compile(r'.*ERROR.*'), 'red'), (re.compile(r'.*WARN.*'), 'yellow'), (re.compile(r'.*INFO.*'), 'white')]
-    do_stream(colors, EXAMPLE.split('\n'))
-    sys.exit(1)
-
+    do_stream(colors, EXAMPLE.split('\n'), sys.stdout)
+    sys.exit(0)
 
 patterns = sys.argv[1:]
 if len(patterns) % 2 != 0:
@@ -49,4 +50,4 @@ for i in range(0, len(patterns), 2):
     print('%s => %s' % (pattern, color))
     colors.append((re.compile(pattern), color))
 
-do_stream(colors, sys.stdin)
+do_stream(colors, sys.stdin, sys.stdout)

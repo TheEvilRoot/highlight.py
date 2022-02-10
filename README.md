@@ -11,6 +11,8 @@ usage: ./hightlight.py ["pattern" "color"]+
 example: ./hightlight.py ".*ERROR.*" red ".*WARN.*" yellow ".*INFO.*" white ".*SUCCESS.*" green
 ```
 
+![Usage screenshot](usage.png)
+
 ## Installation
 
 In order to install, clone repository or download `highlight.py` and install requirements from `requirements.txt`
@@ -18,3 +20,4 @@ In order to install, clone repository or download `highlight.py` and install req
 ```
 pip3 install -r requirements.txt
 ```
+
